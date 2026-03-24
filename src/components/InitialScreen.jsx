@@ -1,0 +1,126 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const TWINKLE_COUNT = 36;
+
+const createTwinkles = () => {
+  const colors = [
+    "rgba(18, 18, 18, 0.75)",
+    "rgba(152, 4, 4, 0.7)",
+    "rgba(255, 226, 142, 0.95)",
+    "rgba(255, 255, 255, 0.92)",
+  ];
+  const glyphs = ["✦", "✶", "✧"];
+
+  return Array.from({ length: TWINKLE_COUNT }, (_, index) => ({
+    id: index,
+    left: `${Math.round(Math.random() * 96)}%`,
+    top: `${Math.round(Math.random() * 92)}%`,
+    size: 10 + Math.round(Math.random() * 10),
+    delay: `${(Math.random() * 3.5).toFixed(2)}s`,
+    duration: `${(2.4 + Math.random() * 3.6).toFixed(2)}s`,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    glyph: glyphs[Math.floor(Math.random() * glyphs.length)],
+  }));
+};
+
+const InitialScreen = () => {
+  const [showWrongChoiceOverlay, setShowWrongChoiceOverlay] = useState(false);
+  const [hideNotInterestedButton, setHideNotInterestedButton] = useState(false);
+  const [twinkles, setTwinkles] = useState(() => createTwinkles());
+  const navigate = useNavigate();
+
+  const moveSingleTwinkle = (id) => {
+    setTwinkles((prevTwinkles) =>
+      prevTwinkles.map((twinkle) => {
+        if (twinkle.id !== id) return twinkle;
+
+        return {
+          ...twinkle,
+          left: `${Math.round(Math.random() * 96)}%`,
+          top: `${Math.round(Math.random() * 92)}%`,
+        };
+      }),
+    );
+  };
+
+  const handleCloseWrongChoiceOverlay = () => {
+    setShowWrongChoiceOverlay(false);
+    setHideNotInterestedButton(true);
+  };
+
+  return (
+    <div className="relative flex min-h-screen items-center flex-col overflow-hidden bg-[var(--color-primary)] px-[20px] pt-[150px]">
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+      >
+        {twinkles.map((twinkle) => (
+          <span
+            key={twinkle.id}
+            className="twinkle-dot"
+            onAnimationIteration={() => moveSingleTwinkle(twinkle.id)}
+            style={{
+              left: twinkle.left,
+              top: twinkle.top,
+              fontSize: `${twinkle.size}px`,
+              color: twinkle.color,
+              animationDelay: twinkle.delay,
+              animationDuration: twinkle.duration,
+            }}
+          >
+            {twinkle.glyph}
+          </span>
+        ))}
+      </div>
+
+      <div className="animate-card-in z-10 flex mx-auto w-[80vw] rounded-[25px] bg-[var(--color-secondary)] px-[20px] py-[40px] shadow-xl/20">
+        <h2 className="text-[48px]/[52px] font-lobster">
+          Today’s a very special day.
+        </h2>
+      </div>
+      <p className="animate-text-in [animation-delay:1200ms] z-10 mt-[100px] text-[32px]/[36px] font-lobster">
+        Want to know why?
+      </p>
+      <div className="z-10 mt-6 flex items-center gap-4">
+        <button
+          className={`btn-base btn-secondary animate-cta-in [animation-delay:760ms] transition-all duration-300 ${
+            hideNotInterestedButton
+              ? "!text-[32px]/[36px]"
+              : "text-[20px]/[24px]"
+          }`}
+          onClick={() => navigate("/memory-lane")}
+        >
+          Lets find out
+        </button>
+        <button
+          className={`btn-base btn-primary animate-cta-in [animation-delay:920ms] ${
+            hideNotInterestedButton
+              ? "!text-[10px]/[14px]"
+              : "text-[20px]/[24px]"
+          }`}
+          onClick={() => setShowWrongChoiceOverlay(true)}
+        >
+          Not Interested
+        </button>
+      </div>
+
+      {showWrongChoiceOverlay && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000e6] px-6"
+          onClick={handleCloseWrongChoiceOverlay}
+        >
+          <div className="relative flex flex-col items-center">
+            <div className="relative mt-3 max-w-[420px] top-[-15px] rounded-2xl bg-white px-5 py-4 text-center text-[20px]/[28px] font-medium text-gray-800 shadow-xl">
+              Oops, you selected the wrong option. Choose again wisely.
+              <span className="absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-x-[10px] border-t-[12px] border-x-transparent border-t-white" />
+            </div>
+            <div className="text-[90px] leading-none">😬</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default InitialScreen;
