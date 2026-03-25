@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Confetti from "react-confetti";
 import cakeImg from "../assets/cake.png";
 import hbdBackground from "../assets/hbd1.webp";
 import tableImg from "../assets/table.png";
+import hbdAudio from "../assets/hbd.mp3";
 
 // Single Candle SVG - with optional flame
 const CandleSVG = ({ showFlame = true }) => (
@@ -56,6 +57,16 @@ const Celebration = () => {
   const [showBlowButton, setShowBlowButton] = useState(false);
   const [candleBlown, setCandleBlown] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const hbdAudioRef = useRef(null);
+
+  const playHBDMusic = useCallback(() => {
+    if (hbdAudioRef.current) {
+      hbdAudioRef.current.muted = false;
+      hbdAudioRef.current.play().catch((err) => {
+        console.error("Failed to play HBD audio:", err);
+      });
+    }
+  }, []);
 
   // Update button position when stage changes
   useEffect(() => {
@@ -81,7 +92,7 @@ const Celebration = () => {
   // Stop confetti after some time
   useEffect(() => {
     if (showConfetti) {
-      const timer = setTimeout(() => setShowConfetti(false), 80000);
+      const timer = setTimeout(() => setShowConfetti(false), 200000);
       return () => clearTimeout(timer);
     }
   }, [showConfetti]);
@@ -99,7 +110,8 @@ const Celebration = () => {
   const handleAddDecorations = useCallback(() => {
     setShowDecorations(true);
     setStage(3);
-  }, []);
+    playHBDMusic();
+  }, [playHBDMusic]);
 
   const handleBlowCandle = useCallback(() => {
     setCandleBlown(true);
@@ -205,7 +217,7 @@ const Celebration = () => {
               />
               {/* Candle on cake */}
               {showCandle && (
-                <div className="absolute top-[-28px] left-1/2 -translate-x-1/2 animate-slide-fade-in">
+                <div className="absolute top-[-70px] left-1/2 -translate-x-1/2 animate-slide-fade-in">
                   <CandleSVG showFlame={!candleBlown} />
                 </div>
               )}
@@ -216,6 +228,14 @@ const Celebration = () => {
         {/* Table */}
         <img src={tableImg} alt="Table" className="w-[400px] h-auto" />
       </div>
+
+      {/* Hidden audio element for HBD song */}
+      <audio
+        ref={hbdAudioRef}
+        src={hbdAudio}
+        muted
+        className="hidden"
+      />
     </section>
   );
 };

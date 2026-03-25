@@ -56,6 +56,17 @@ body {
   }
 }
 
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes twinkle {
   0% {
     opacity: 0.1;
@@ -93,6 +104,13 @@ body {
   animation-name: cta-rise-fade;
   animation-duration: 800ms;
   animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.animate-slide-in-up {
+  animation-name: slide-in-up;
+  animation-duration: 900ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
 }
 

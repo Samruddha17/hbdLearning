@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import musicVideo from "../assets/music.mov";
+import audioTrack from "../assets/audio.mp3";
 
 const TWINKLE_COUNT = 36;
 
@@ -28,6 +30,7 @@ const InitialScreen = () => {
   const [showWrongChoiceOverlay, setShowWrongChoiceOverlay] = useState(false);
   const [hideNotInterestedButton, setHideNotInterestedButton] = useState(false);
   const [twinkles, setTwinkles] = useState(() => createTwinkles());
+  const audioRef = useRef(null);
   const navigate = useNavigate();
 
   const moveSingleTwinkle = (id) => {
@@ -49,8 +52,16 @@ const InitialScreen = () => {
     setHideNotInterestedButton(true);
   };
 
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch((err) => {
+        console.error("Failed to play audio:", err);
+      });
+    }
+  };
+
   return (
-    <div className="relative flex min-h-screen items-center flex-col overflow-hidden bg-[var(--color-primary)] px-[20px] pt-[150px]">
+    <div className="relative flex min-h-screen items-center flex-col overflow-hidden bg-[var(--color-primary)] px-[20px] pt-[50px]">
       <div
         className="pointer-events-none absolute inset-0 z-0"
         aria-hidden="true"
@@ -79,7 +90,7 @@ const InitialScreen = () => {
           Today’s a very special day.
         </h2>
       </div>
-      <p className="animate-text-in [animation-delay:1200ms] z-10 mt-[100px] text-[32px]/[36px] font-lobster">
+      <p className="animate-text-in [animation-delay:1200ms] z-10 mt-[80px] text-[32px]/[36px] font-lobster">
         Want to know why?
       </p>
       <div className="z-10 mt-6 flex items-center gap-4">
@@ -102,6 +113,30 @@ const InitialScreen = () => {
           onClick={() => setShowWrongChoiceOverlay(true)}
         >
           Not Interested
+        </button>
+      </div>
+
+      <div className="z-10 mt-10 mb-6 w-full max-w-[90vw] absolute bottom-0 animate-slide-in-up transition-all duration-300 [animation-delay:1250ms] ">
+        <video
+          src={musicVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-[200px] object-cover rounded-xl shadow-xl"
+        />
+        <audio
+          ref={audioRef}
+          src={audioTrack}
+          loop
+          controls
+          className="w-full mt-2 opacity-0 h-0"
+        />
+        <button
+          onClick={playAudio}
+          className="btn-base btn-secondary mt-2 w-full"
+        >
+          Play Audio 🎵
         </button>
       </div>
 
