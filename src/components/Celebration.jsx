@@ -57,7 +57,19 @@ const Celebration = () => {
   const [showBlowButton, setShowBlowButton] = useState(false);
   const [candleBlown, setCandleBlown] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showCakeElements, setShowCakeElements] = useState(true);
   const hbdAudioRef = useRef(null);
+
+  useEffect(() => {
+    // Handle dynamic viewport height for mobile Safari
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    setVh();
+    window.addEventListener('resize', setVh);
+    return () => window.removeEventListener('resize', setVh);
+  }, []);
 
   const playHBDMusic = useCallback(() => {
     if (hbdAudioRef.current) {
@@ -118,6 +130,10 @@ const Celebration = () => {
     setShowWishText(false);
     setShowBlowButton(false);
     setShowConfetti(true);
+    // Hide cake elements after 2 seconds
+    setTimeout(() => {
+      setShowCakeElements(false);
+    }, 2000);
   }, []);
 
   const buttonLabels = ["Add Cake 🎂", "Add Candles 🕯️", "Add Decorations 🎈"];
@@ -128,7 +144,7 @@ const Celebration = () => {
   ];
 
   return (
-    <section className="h-screen bg-[var(--color-primary)] flex flex-col overflow-hidden relative">
+    <section className="full-height bg-[var(--color-primary)] flex flex-col overflow-hidden relative">
       {/* Confetti celebration */}
       {showConfetti && (
         <>
@@ -149,10 +165,10 @@ const Celebration = () => {
             className="pointer-events-none z-50"
           />
           {/* Birthday text */}
-          <div className="absolute bottom-[20%] inset-0 flex items-center justify-center z-40 pointer-events-none">
-            <h1 className="font-lobster text-[60px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in drop-shadow-lg">
-              Happiest Birthday! 🎉
-            </h1>
+          <div className="absolute bottom-[10%] inset-0 flex items-center justify-center z-40 pointer-events-none">
+           {!showCakeElements && <h1 className="font-roboto-condensed text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2000ms] drop-shadow-lg">
+             Many Many Happy Returns of the day! 🎉
+            </h1>}
           </div>
         </>
       )}
@@ -170,8 +186,8 @@ const Celebration = () => {
 
       {/* Wish text in middle */}
       {showWishText && (
-        <div className="absolute bottom-[20%] inset-0 flex items-center justify-center z-30 pointer-events-none">
-          <h2 className="font-lobster text-[38px] sm:text-[42px] text-[var(--color-quaternary)] text-center px-6 animate-slide-fade-in">
+        <div className="absolute top-[25%] inset-0 flex justify-center z-30 pointer-events-none">
+          <h2 className="font-lobster text-[24px] sm:text-[24px] text-[var(--color-quaternary)] text-center px-6 animate-slide-fade-in">
             Make a wish and blow the candles ✨
           </h2>
         </div>
@@ -205,29 +221,31 @@ const Celebration = () => {
       )}
 
       {/* Table area at bottom */}
-      <div className="relative flex justify-center items-end pb-0 z-10">
-        {/* Cake on table */}
-        <div className="absolute bottom-[245px] z-10">
-          {showCake && (
-            <div className="relative animate-slide-fade-in">
-              <img
-                src={cakeImg}
-                alt="Birthday cake"
-                className="w-[160px] h-auto"
-              />
-              {/* Candle on cake */}
-              {showCandle && (
-                <div className="absolute top-[-70px] left-1/2 -translate-x-1/2 animate-slide-fade-in">
-                  <CandleSVG showFlame={!candleBlown} />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+      {showCakeElements && (
+        <div className="relative flex justify-center items-end pb-0 z-10">
+          {/* Cake on table */}
+          <div className="absolute bottom-[245px] z-10">
+            {showCake && (
+              <div className="relative animate-slide-fade-in">
+                <img
+                  src={cakeImg}
+                  alt="Birthday cake"
+                  className="w-[160px] h-auto"
+                />
+                {/* Candle on cake */}
+                {showCandle && (
+                  <div className="absolute top-[-70px] left-1/2 -translate-x-1/2 animate-slide-fade-in">
+                    <CandleSVG showFlame={!candleBlown} />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
-        {/* Table */}
-        <img src={tableImg} alt="Table" className="w-[400px] h-auto" />
-      </div>
+          {/* Table */}
+          <img src={tableImg} alt="Table" className="w-[400px] h-auto" />
+        </div>
+      )}
 
       {/* Hidden audio element for HBD song */}
       <audio

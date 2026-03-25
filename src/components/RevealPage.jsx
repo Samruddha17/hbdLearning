@@ -25,7 +25,7 @@ const RevealPage = () => {
   };
 
   return (
-    <section className="reveal-page max-h-screen h-screen flex justify-center py-[64px] px-6 relative overflow-hidden">
+    <section className="reveal-page flex justify-center py-[64px] pb-[40px] px-6 relative overflow-x-hidden overflow-y-auto">
       {showConfetti && (
         <Confetti
           width={window.innerWidth}
@@ -54,7 +54,10 @@ const RevealPage = () => {
           Person name
         </p>
 
-        <div className="rounded-2xl mt-[30px] overflow-hidden bg-white scratch-card-shell reveal-line reveal-line-d">
+        <div className="rounded-2xl mt-[30px] mb-[100px] overflow-hidden bg-white scratch-card-shell reveal-line reveal-line-d"
+             onTouchMove={(e) => e.preventDefault()}
+             onWheel={(e) => e.preventDefault()}
+             style={{touchAction: !isRevealed ? 'none' : 'auto'}}>
           {!isRevealed ? (
             <ScratchCard
               width={Math.min(480, window.innerWidth - 48)}

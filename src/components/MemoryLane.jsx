@@ -37,6 +37,11 @@ const memories = [
     src: "https://placehold.co/400x300/e8d5b7/333?text=Memory+7",
     caption: "And so many more...",
   },
+  {
+    id: 8,
+    src: "https://placehold.co/400x300/f0e1c8/333?text=Memory+8",
+    caption: "",
+  },
 ];
 
 const POSITIONS = ["right", "center", "left", "center"];
@@ -180,18 +185,19 @@ const MemoryLane = () => {
           return (
             <section
               key={memory.id}
-              className="h-[45vh] snap-center flex items-center px-6"
+              className="h-[50vh] sm:h-[45vh] snap-center flex items-center px-6"
             >
               <div className="mx-auto max-w-[900px] w-full flex flex-col">
                 <div
                   ref={(el) => (cardsRef.current[index] = el)}
                   className={`memory-card ${posClass} z-10`}
+                  style={index === 7 ? { opacity: 0 } : {}}
                 >
                   <div className="memory-card-inner rounded-2xl overflow-hidden shadow-xl bg-white">
                     <img
                       src={memory.src}
                       alt={memory.caption}
-                      className="memory-card-img w-full h-[260px] object-cover"
+                      className="memory-card-img w-full h-[220px] sm:h-[260px] object-cover"
                     />
                     <p className="font-poppins text-[18px]/[26px] font-medium text-gray-700 px-5 py-4 text-center">
                       {memory.caption}

@@ -205,6 +205,12 @@ body {
   align-self: flex-start;
 }
 
+@media (max-width: 640px) {
+  .memory-card {
+    width: 65%;
+  }
+}
+
 .memory-revealed {
   opacity: 1;
   transform: translateY(0);

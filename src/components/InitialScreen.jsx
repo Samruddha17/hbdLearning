@@ -30,7 +30,11 @@ const InitialScreen = () => {
   const [showWrongChoiceOverlay, setShowWrongChoiceOverlay] = useState(false);
   const [hideNotInterestedButton, setHideNotInterestedButton] = useState(false);
   const [twinkles, setTwinkles] = useState(() => createTwinkles());
+  const [hasBeenClickedOnce, setHasBeenClickedOnce] = useState(false);
+  const [audioPlayed, setAudioPlayed] = useState(false);
+  const [cardAnimated, setCardAnimated] = useState(false);
   const audioRef = useRef(null);
+  const videoRef = useRef(null);
   const navigate = useNavigate();
 
   const moveSingleTwinkle = (id) => {
@@ -49,7 +53,6 @@ const InitialScreen = () => {
 
   const handleCloseWrongChoiceOverlay = () => {
     setShowWrongChoiceOverlay(false);
-    setHideNotInterestedButton(true);
   };
 
   const playAudio = () => {
@@ -58,6 +61,13 @@ const InitialScreen = () => {
         console.error("Failed to play audio:", err);
       });
     }
+    if(videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.error("Failed to play video:", err);
+      })
+    }
+    setAudioPlayed(true);
+    setCardAnimated(true);
   };
 
   return (
@@ -85,41 +95,56 @@ const InitialScreen = () => {
         ))}
       </div>
 
-      <div className="animate-card-in z-10 flex mx-auto w-[80vw] rounded-[25px] bg-[var(--color-secondary)] px-[20px] py-[40px] shadow-xl/20">
+      <div className={`animate-card-in z-10 flex mx-auto w-[80vw] rounded-[25px] bg-[var(--color-secondary)] px-[20px] py-[40px] shadow-xl/20 transition-all duration-300 ${cardAnimated ? 'scale-105' : ''}`}>
         <h2 className="text-[48px]/[52px] font-lobster">
           Today’s a very special day.
         </h2>
       </div>
-      <p className="animate-text-in [animation-delay:1200ms] z-10 mt-[80px] text-[32px]/[36px] font-lobster">
-        Want to know why?
-      </p>
-      <div className="z-10 mt-6 flex items-center gap-4">
-        <button
-          className={`btn-base btn-secondary animate-cta-in [animation-delay:760ms] transition-all duration-300 ${
-            hideNotInterestedButton
-              ? "!text-[32px]/[36px]"
-              : "text-[20px]/[24px]"
-          }`}
-          onClick={() => navigate("/memory-lane")}
-        >
-          Lets find out
-        </button>
-        <button
-          className={`btn-base btn-primary animate-cta-in [animation-delay:920ms] ${
-            hideNotInterestedButton
-              ? "!text-[10px]/[14px]"
-              : "text-[20px]/[24px]"
-          }`}
-          onClick={() => setShowWrongChoiceOverlay(true)}
-        >
-          Not Interested
-        </button>
-      </div>
 
-      <div className="z-10 mt-10 mb-6 w-full max-w-[90vw] absolute bottom-0 animate-slide-in-up transition-all duration-300 [animation-delay:1250ms] ">
+      {audioPlayed && (
+        <>
+          <p className="animate-text-in [animation-delay:200ms] z-10 mt-[40px] text-[32px]/[36px] font-lobster">
+            Want to know why?
+          </p>
+
+          <div className="z-10 mt-[20px] flex items-center gap-4">
+            <button
+              className={`btn-base btn-secondary animate-cta-in [animation-delay:400ms] transition-all duration-300 ${
+                hideNotInterestedButton
+                  ? "!text-[32px]/[36px]"
+                  : "text-[20px]/[24px]"
+              }`}
+              onClick={() => navigate("/memory-lane")}
+            >
+              Lets find out
+            </button>
+            {!hideNotInterestedButton && (
+              <button
+                className={`btn-base btn-primary animate-cta-in [animation-delay:500ms] ${
+                  hasBeenClickedOnce
+                    ? "!text-[10px]/[14px]"
+                    : "text-[20px]/[24px]"
+                }`}
+                onClick={() => {
+                  setShowWrongChoiceOverlay(true);
+                  if (hasBeenClickedOnce) {
+                    setHideNotInterestedButton(true);
+                  } else {
+                    setHasBeenClickedOnce(true);
+                  }
+                }}
+              >
+                Not Interested
+              </button>
+            )}
+          </div>
+        </>
+      )}
+
+      <div className="z-10 mt-[80px] mb-6 w-full max-w-[90vw] animate-slide-in-up transition-all duration-300 [animation-delay:1250ms] ">
         <video
           src={musicVideo}
-          autoPlay
+          ref={videoRef}
           loop
           muted
           playsInline
@@ -132,12 +157,14 @@ const InitialScreen = () => {
           controls
           className="w-full mt-2 opacity-0 h-0"
         />
-        <button
-          onClick={playAudio}
-          className="btn-base btn-secondary mt-2 w-full"
-        >
-          Play Audio 🎵
-        </button>
+        {!audioPlayed && (
+          <button
+            onClick={playAudio}
+            className="btn-base btn-secondary mt-2 w-full"
+          >
+            Play Audio 🎵
+          </button>
+        )}
       </div>
 
       {showWrongChoiceOverlay && (
