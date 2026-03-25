@@ -95,11 +95,13 @@ const InitialScreen = () => {
         ))}
       </div>
 
-      <div className={`animate-card-in z-10 flex mx-auto w-[80vw] rounded-[25px] bg-[var(--color-secondary)] px-[20px] py-[40px] shadow-xl/20 transition-all duration-300 ${cardAnimated ? 'scale-105' : ''}`}>
-        <h2 className="text-[48px]/[52px] font-lobster">
-          Today’s a very special day.
-        </h2>
-      </div>
+     {audioPlayed && (
+        <div className={`animate-card-in z-10 flex mx-auto w-[80vw] rounded-[25px] bg-[var(--color-secondary)] px-[20px] py-[40px] shadow-xl/20 transition-all duration-300 ${cardAnimated ? 'scale-105' : ''}`}>
+          <h2 className="text-[48px]/[52px] font-lobster">
+            Today’s a very special day.
+          </h2>
+        </div>
+      )}
 
       {audioPlayed && (
         <>
@@ -141,7 +143,7 @@ const InitialScreen = () => {
         </>
       )}
 
-      <div className="z-10 mt-[80px] mb-6 w-full max-w-[90vw] animate-slide-in-up transition-all duration-300 [animation-delay:1250ms] ">
+      <div className={`z-10 mt-[80px] ${audioPlayed ? 'relative' : 'absolute bottom-0'} mb-6 w-full max-w-[90vw] animate-slide-in-up transition-all duration-300`}>
         <video
           src={musicVideo}
           ref={videoRef}
