@@ -150,6 +150,7 @@ const InitialScreen = () => {
           loop
           muted
           autoPlay
+          playsInline
           className="w-full h-[200px] object-cover rounded-xl shadow-xl"
         />
         <audio
