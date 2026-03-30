@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import ScratchCard from "react-scratchcard-v2";
 import { useNavigate } from "react-router-dom";
+import Main from "../assets/main.jpg";
 
 const RevealPage = () => {
   const navigate = useNavigate();
@@ -49,9 +50,9 @@ const RevealPage = () => {
         </h3>
 
         <p
-          className={`font-poppins pt-[25px] text-[44px]/[50px] sm:text-[54px]/[60px] mt-2 reveal-hero-name ${isRevealed ? "is-unlocked" : ""}`}
+          className={`font-poppins font-bold pt-[25px] text-[44px]/[50px] sm:text-[54px]/[60px] mt-2 reveal-hero-name ${isRevealed ? "is-unlocked" : ""}`}
         >
-          Person name
+          Sohil Bepari
         </p>
 
         <div className="rounded-2xl mt-[30px] mb-[100px] overflow-hidden bg-white scratch-card-shell reveal-line reveal-line-d"
@@ -62,7 +63,7 @@ const RevealPage = () => {
             <ScratchCard
               width={Math.min(480, window.innerWidth - 48)}
               height={260}
-              image="https://placehold.co/640x360/e0b765/4d3311?text=Scratch+Me"
+              image="https://placehold.co/640x360/green/fff?text=Scratch+Me"
               finishPercent={45}
               brushSize={30}
               onComplete={handleScratchComplete}
@@ -74,7 +75,7 @@ const RevealPage = () => {
             </ScratchCard>
           ) : (
             <img
-              src="https://placehold.co/480x360/f0e1c8/333?text=Birthday+Star"
+              src={Main}
               alt="Birthday reveal"
               className="w-full h-[260px] object-cover reveal-main-photo is-unlocked"
             />

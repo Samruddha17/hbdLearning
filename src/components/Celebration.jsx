@@ -104,7 +104,7 @@ const Celebration = () => {
   // Stop confetti after some time
   useEffect(() => {
     if (showConfetti) {
-      const timer = setTimeout(() => setShowConfetti(false), 200000);
+      const timer = setTimeout(() => setShowConfetti(false), 20000);
       return () => clearTimeout(timer);
     }
   }, [showConfetti]);
@@ -152,7 +152,7 @@ const Celebration = () => {
             width={window.innerWidth}
             height={window.innerHeight}
             numberOfPieces={400}
-            recycle={false}
+            recycle={true}
             gravity={0.15}
             colors={[
               "#FF6B6B",
@@ -165,9 +165,14 @@ const Celebration = () => {
             className="pointer-events-none z-50"
           />
           {/* Birthday text */}
-          <div className="absolute bottom-[10%] inset-0 flex items-center justify-center z-40 pointer-events-none">
-           {!showCakeElements && <h1 className="font-roboto-condensed text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2000ms] drop-shadow-lg">
-             Many Many Happy Returns of the day! 🎉
+          <div className="absolute flex-col bottom-[5%] inset-0 flex items-center justify-center z-40 pointer-events-none">
+           {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2000ms] drop-shadow-lg">
+             Many Many Happy Returns of the day! 🎉 <br></br>
+              <br></br>
+               <br></br>
+            </h1>}
+            {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2500ms] drop-shadow-lg">
+             May all your dreams come true! 🌟
             </h1>}
           </div>
         </>

@@ -149,7 +149,7 @@ const InitialScreen = () => {
           ref={videoRef}
           loop
           muted
-          playsInline
+          autoPlay
           className="w-full h-[200px] object-cover rounded-xl shadow-xl"
         />
         <audio

@@ -1,41 +1,49 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Memmory1 from "../assets/1.png";
+import Memmory2 from "../assets/2.jpg";
+import Memmory3 from "../assets/3.jpg";
+import Memmory4 from "../assets/4.jpg";
+import Memmory5 from "../assets/5.png";
+import Memmory6 from "../assets/6.png";
+import Memmory7 from "../assets/7.jpg";
+
 const memories = [
   {
     id: 1,
-    src: "https://placehold.co/400x300/e8d5b7/333?text=Memory+1",
-    caption: "Where it all began",
+    src: Memmory1,
+    caption: "Cuteness at its peak",
   },
   {
     id: 2,
-    src: "https://placehold.co/400x300/f0e1c8/333?text=Memory+2",
-    caption: "That one crazy day",
+    src: Memmory2,
+    caption: "That first passport size photo",
   },
   {
     id: 3,
-    src: "https://placehold.co/400x300/e8d5b7/333?text=Memory+3",
-    caption: "Laughs we shared",
+    src: Memmory3,
+    caption: "Good old School Days",
   },
   {
     id: 4,
-    src: "https://placehold.co/400x300/f0e1c8/333?text=Memory+4",
-    caption: "Adventures together",
+    src: Memmory4,
+    caption: "Soon hitting Puberty",
   },
   {
     id: 5,
-    src: "https://placehold.co/400x300/e8d5b7/333?text=Memory+5",
-    caption: "The unforgettable trip",
+    src: Memmory5,
+    caption: "The Lockdown Mode",
   },
   {
     id: 6,
-    src: "https://placehold.co/400x300/f0e1c8/333?text=Memory+6",
-    caption: "Late night talks",
+    src: Memmory6,
+    caption: "That Memorable Graduation Day",
   },
   {
     id: 7,
-    src: "https://placehold.co/400x300/e8d5b7/333?text=Memory+7",
-    caption: "And so many more...",
+    src: Memmory7,
+    caption: "The Handsome Hunk",
   },
   {
     id: 8,
@@ -197,7 +205,7 @@ const MemoryLane = () => {
                     <img
                       src={memory.src}
                       alt={memory.caption}
-                      className="memory-card-img w-full h-[220px] sm:h-[260px] object-cover"
+                      className="memory-card-img w-full h-[220px] sm:h-[260px] object-cover object-top"
                     />
                     <p className="font-poppins text-[18px]/[26px] font-medium text-gray-700 px-5 py-4 text-center">
                       {memory.caption}
