@@ -56,6 +56,7 @@ const InitialScreen = () => {
   };
 
   const playAudio = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (audioRef.current) {
       audioRef.current.play().catch((err) => {
         console.error("Failed to play audio:", err);
@@ -143,7 +144,7 @@ const InitialScreen = () => {
         </>
       )}
 
-      <div className={`z-10 mt-[80px] ${audioPlayed ? 'relative' : 'absolute bottom-0'} mb-6 w-full max-w-[90vw] animate-slide-in-up transition-all duration-300`}>
+      <div className={`z-10 mt-[80px] ${audioPlayed ? 'relative' : 'absolute bottom-60'} mb-6 w-full max-w-[90vw] animate-slide-in-up transition-all duration-300`}>
         <video
           src={musicVideo}
           ref={videoRef}
