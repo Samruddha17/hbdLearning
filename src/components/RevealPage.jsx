@@ -63,7 +63,7 @@ const RevealPage = () => {
             <ScratchCard
               width={Math.min(480, window.innerWidth - 48)}
               height={260}
-              image="https://placehold.co/640x360/green/fff?text=Scratch+Me"
+              image="https://placehold.co/640x360/green/fff?text=Reveal+Me"
               finishPercent={45}
               brushSize={30}
               onComplete={handleScratchComplete}
@@ -89,7 +89,7 @@ const RevealPage = () => {
           Lets start the celebration
         </button>
       </div>
-    </section>
+    </section >
   );
 };
 

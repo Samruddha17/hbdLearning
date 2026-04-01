@@ -165,13 +165,13 @@ const Celebration = () => {
             className="pointer-events-none z-50"
           />
           {/* Birthday text */}
-          <div className="absolute flex-col bottom-[5%] inset-0 flex items-center justify-center z-40 pointer-events-none">
-           {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2000ms] drop-shadow-lg">
+          <div className="absolute flex-col bottom-[0%] inset-0 flex items-center justify-center z-40 pointer-events-none">
+           {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[36px]/[40px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2000ms] drop-shadow-lg">
              Many Many Happy Returns of the day! 🎉 <br></br>
               <br></br>
                <br></br>
             </h1>}
-            {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[40px]/[46px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2500ms] drop-shadow-lg">
+            {!showCakeElements && <h1 className="font-roboto-condensed font-bold text-[36px]/[40px] sm:text-[80px] md:text-[100px] text-[var(--color-quaternary)] text-center px-6 animate-fade-in [animation-delay:2500ms] drop-shadow-lg">
              May all your dreams come true! 🌟
             </h1>}
           </div>
